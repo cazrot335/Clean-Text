@@ -16,12 +16,19 @@ def process_word_document(input_path, output_path):
         # Clean up the paragraph text
         cleaned_paragraph = re.sub(r'\n+', '\n', para.text.strip())
         
+        # Remove placeholders
+        cleaned_paragraph = cleaned_paragraph.replace("**** end ****", "")
+        
         # Update the paragraph with the cleaned text
         para.clear()
         para.add_run(cleaned_paragraph)
 
-        # Remove space after the paragraph
-        para.paragraph_format.space_after = Pt(0)
+        # Set space after the paragraph to 2 units
+        para.paragraph_format.space_after = Pt(2)
+        
+        # Set space before the paragraph to 2 units
+        if prev_paragraph is not None:
+            prev_paragraph.paragraph_format.space_after = Pt(2)
         
         prev_paragraph = para
     
